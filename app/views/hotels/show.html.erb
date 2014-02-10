@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Title:</strong>
+  <%= @hotel.title %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @hotel.description %>
+</p>
+<p>
+  <strong>Address:</strong>
+  <%= @hotel.address %>
+</p>
+<p>
+  <strong>Photourl:</strong>
+  <%= @hotel.photoUrl %>
+</p>
+<p>
+  <strong>Price:</strong>
+  <%= @hotel.price %>
+</p>
+<p>
+  <strong>Breakfast:</strong>
+  <%= @hotel.breakfast %>
+</p>
+<%= button_to "Back to main page", "/hotels/top", :class => "button", :method => :post %>
+<%= button_to "Logout", "/", :class => "button", :method => :get %>

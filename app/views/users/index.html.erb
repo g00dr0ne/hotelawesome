@@ -1,0 +1,17 @@
+<h1>All users list</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Login</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.login %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<button onclick="window.location.href='/'">Home</button>

@@ -1,0 +1,7 @@
+<p>Logging in...</p>
+<p>Your token:</p>
+<p><%= @token%></p>
+<p>Debug output:</p>
+<p><%= @debug_msg%></p>
+<%= button_to "Continue", "/hotels/top", :class => "button", :method => :post if @debug_msg.blank? %>
+<button onclick="window.location.href='/'">Home</button>

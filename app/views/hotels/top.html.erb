@@ -1,0 +1,20 @@
+<p>Awesome hotels:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @hotels_top_arr.each do |hotel| %>
+      <tr>
+        <td><%= hotel.title %></td>
+        <td><%= button_to "Check this one", "/hotels/see/" + hotel.id.to_s, :class => "button", :method => :get %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= button_to "All hotels", "/hotels/all", :class => "button", :method => :post %>
+<%= button_to "Add Awesome hotel!", "/hotels/new", :class => "button", :method => :get %>
+<%= button_to "Logout", "/", :class => "button", :method => :get %>

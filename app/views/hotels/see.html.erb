@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Title:</strong>
+  <%= @hotel_for_rate.title %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @hotel_for_rate.description %>
+</p>
+<p>
+  <strong>Address:</strong>
+  <%= @hotel_for_rate.address %>
+</p>
+<p>
+  <strong>Photo:</strong>
+  <%= image_tag @hotel_for_rate.photoUrl %>
+</p>
+<p>
+  <strong>Price:</strong>
+  <%= @hotel_for_rate.price %>
+</p>
+<p>
+  <strong>Breakfast:</strong>
+  <%= @hotel_for_rate.breakfast %>
+</p>
+<p>
+  <strong>Rating:</strong>
+  <%= @hotel_for_rate.rate %>
+  <div class="field">
+  	<p>Rate this hotel</p>
+  	<%= form_tag("/hotels/rate/" + @hotel_for_rate.id.to_s, method: "post") do %>
+      <%= select_tag "rating", "<option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>".html_safe %>
+      <%= submit_tag "Rate"%>
+    <% end %>
+  </div>
+</p>
+<%= button_to "Back to main page", "/hotels/top", :class => "button", :method => :post %>
+<%= button_to "Logout", "/", :class => "button", :method => :get %>
