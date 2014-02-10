@@ -2,15 +2,12 @@ class HotelsController < ApplicationController
   before_action :set_hotel, only: [:show, :edit, :update, :destroy]
   
   def top
-    @hotels_top_arr = Hotel.find(:all, :order => "rate DESC", :limit => 5)
+    @hotels_top_arr = Hotel.all(:order => "rate DESC", :limit => 5)
     return @hotels_top_arr
   end
   
   def all 
-    @hotels_all_arr = Hotel.find(:all, :order => "rate DESC")
-  end
-  
-  def details
+    @hotels_all_arr = Hotel.all(:order => "rate DESC")
   end
   
   def see
@@ -26,45 +23,9 @@ class HotelsController < ApplicationController
       r.hotel_id = hotel_id
       r.user_id = user_id
     end
-    user_id_from_rating = user_id
-    hotel_id_from_rating = hotel_id
     Rating.where("user_id = " + user_id.to_s + " AND hotel_id = " + hotel_id.to_s).destroy_all
     if @rating.save
-      all_ratings = Rating.all 
-      all_hotels = Hotel.all
-      loop_size = all_hotels.size
-      loop_size -= 1
-      if loop_size > -1
-        hotel_ratings = Array.new(loop_size * 3)
-        for i in 0..loop_size
-          hotel_ratings[(i*3)] = all_hotels[i].id
-          hotel_ratings[(i*3)+1] = 0
-          hotel_ratings[(i*3)+2] = 0                  
-        end 
-        loop_size_rating = all_ratings.size
-        loop_size_rating -= 1
-        for i in 0..loop_size_rating
-          for j in 0..loop_size
-            matched = false
-            if hotel_ratings[(j*3)] == all_ratings[i].hotel_id
-              hotel_ratings[(j*3)+1] += all_ratings[i].score
-              hotel_ratings[(j*3)+2] += 1   
-              matched = true           
-            end
-            break if matched 
-          end              
-        end
-        for i in 0..loop_size
-          if hotel_ratings[(i*3)+2] > 0
-            hotel_ratings[(i*3)+1] = hotel_ratings[(i*3)+1] / hotel_ratings[(i*3)+2]
-          end
-        end
-        for i in 0..loop_size
-          hotel = Hotel.find(hotel_ratings[i*3])
-          hotel.rate = hotel_ratings[(i*3)+1]
-          hotel.save
-        end         
-      end
+      Hotel.find(hotel_id).make_ratings
     end
   end
 
@@ -100,30 +61,6 @@ class HotelsController < ApplicationController
         format.html { render action: 'new' }
         format.json { render json: @hotel.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /hotels/1
-  # PATCH/PUT /hotels/1.json
-  def update
-    respond_to do |format|
-      if @hotel.update(hotel_params)
-        format.html { redirect_to @hotel, notice: 'Hotel was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @hotel.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /hotels/1
-  # DELETE /hotels/1.json
-  def destroy
-    @hotel.destroy
-    respond_to do |format|
-      format.html { redirect_to hotels_url }
-      format.json { head :no_content }
     end
   end
 
